@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>09_form</title>
+</head>
+<body>
+<div id="example"></div>
+
+<script type="text/javascript" src="../js/react.development.js"></script>
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<script type="text/javascript" src="../js/babel.min.js"></script>
+<script type="text/babel">
+  /*
+  需求: 自定义包含表单的组件
+    1. 界面如下所示
+    2. 输入用户名密码后, 点击登陆提示输入信息
+    3. 不提交表单
+  */
+
+  //定义组件
+  class Login extends React.Component {
+
+      constructor(props){
+          super(props)
+
+          //使用状态方式获取表单数据
+          //注意：必须使用 onChange={this.handlerChange} 监听，
+          //否则表单无法输入数据，原因：每次输入数据都被当前 '' 替换
+          this.state = {
+              pwd:''
+          }
+
+          this.handlerChange = this.handlerChange.bind(this)
+          this.handlerSubmit = this.handlerSubmit.bind(this)
+      }
+
+      handlerChange(e){
+          //注意：当触发事件和监听事件是同一个时，使用event.target更合适
+          const pwd = e.target.value
+          this.setState({pwd})
+      }
+
+      //onSubmit={this.handlerSubmit}
+      handlerSubmit(e){
+          //const {value} = this.nameInput，属性名相同时可简写
+          const name = this.nameInput.value
+          const {pwd} = this.state
+
+          //alert(name + pwd)
+          alert(`${name}, ${pwd}`)
+
+          //阻止默认行为
+          e.preventDefault()
+      }
+
+      render(){
+          return (
+              <form action="/test" onSubmit={this.handlerSubmit}>
+                用户：<input type="text" ref={input => this.nameInput = input}/>
+                密码：<input type="password" value={this.state.pwd} onChange={this.handlerChange}/>
+                <input type="submit" value="登录"/>
+              </form>
+          )
+      }
+  }
+
+  //渲染组件标签
+  ReactDOM.render(<Login/> , document.getElementById('example'))
+
+</script>
+</body>
+</html>

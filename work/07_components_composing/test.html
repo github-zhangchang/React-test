@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>05_components_composing</title>
+</head>
+<body>
+
+  <div id="example"></div>
+
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/prop-types.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+
+  <script type="text/babel">
+    /*
+     1)拆分组件: 拆分界面,抽取组件
+     2)实现静态组件: 使用组件实现静态页面效果
+     3)实现动态组件
+     ① 动态显示初始化数据
+     ② 交互功能(从绑定事件监听开始)
+     */
+
+    //定义组件
+    class App extends React.Component {
+        constructor(props){
+            super(props)
+            //初始化数据
+            this.state = {
+                todos:['吃饭','睡觉','打蚊子']
+            }
+
+            this.add = this.add.bind(this)
+        }
+
+        add(todo){
+            let {todos} = this.state
+            //添加数据到数组中
+            todos.unshift(todo)
+            //更新界面数据显示
+            this.setState({todos})
+        }
+
+        render(){
+            //将状态中的数据通过属性的方式传递出去，子元素中通过 props 属性接收
+            let {todos} = this.state
+            return (
+              <div>
+                <h2>Simple TODO List</h2>
+                <ToAdd add={this.add} index={todos.length}/>
+                <ToList todos={todos}/>
+              </div>
+            )
+        }
+    }
+
+    class ToAdd extends React.Component {
+
+        constructor(props){
+            super(props)
+            this.toAdd = this.toAdd.bind(this)
+        }
+
+        toAdd(){
+            //读取数据 - ref={input => this.input = input}/>
+            let text = this.input.value.trim()
+            //检验数据
+            if(!text){
+                return
+            }
+            //添加数据 - 获取属性中传递的 add 函数，并执行添加方法
+            //<ToAdd add={this.add}/>
+            this.props.add(text)
+
+            //清除之前数据
+            this.input.value = ''
+        }
+
+        render(){
+            return (
+              <div>
+                <input type="text" ref={input => this.input = input}/>
+                <button onClick={this.toAdd}>Add #{this.props.index+1}</button>
+              </div>
+            )
+        }
+    }
+
+    class ToList extends React.Component {
+        render(){
+            //接收父级传递的属性 - <ToList todos={todos}/>
+            let {todos} = this.props
+            return (
+              <ul>
+                  {todos.map((todo, key) => {return <li key={key}>{todo}</li>})}
+              </ul>
+            )
+        }
+    }
+
+    //渲染组件标签
+    ReactDOM.render(<App/> , document.getElementById('example'))
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/react.development.js"></script>
+    <script src="js/react-dom.development.js"></script>
+    <script src="js/babel.min.js"></script>
+</head>
+<body>
+    <div id="div"></div>
+</body>
+<script type="text/babel">
+
+    //创建虚拟DOM
+    const names = ['jQuery框架','Zepto移动端框架','Angular单页面框架','React全家桶','Vue全家桶']
+    const vDom = <ul>{names.map((name, key) => <li key={key}>{name}</li>)}</ul>
+    //const vDom = <ul>{names.filter((name, key) => <li key={key}>{name}</li>)}</ul>
+
+    console.log(vDom)
+
+    //渲染虚拟DOM
+    ReactDOM.render(vDom , document.getElementById('div'))
+
+</script>
+</html>

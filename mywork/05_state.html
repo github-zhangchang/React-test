@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/react.development.js"></script>
+    <script src="js/react-dom.development.js"></script>
+    <script src="js/babel.min.js"></script>
+</head>
+<body>
+    <div id="div"></div>
+</body>
+<script type="text/babel">
+
+    //1.定义组件
+    class MyComponent extends React.Component {
+
+        constructor(props){
+            super(props)
+
+            //初始化状态
+            this.state = {
+                isLikeMe:false
+            }
+
+            this.handleClick = this.handleClick.bind(this)
+        }
+
+        handleClick(){
+            const isLikeMe = !this.state.isLikeMe
+            //更新状态
+            this.setState({isLikeMe})
+        }
+
+        //渲染组件
+        render(){
+            const {isLikeMe} = this.state
+            return (
+                <h2 onClick={this.handleClick}>{isLikeMe? '我喜欢你' : '你喜欢我'}</h2>
+            )
+        }
+    }
+
+    //2.渲染组件标签
+    ReactDOM.render(<MyComponent/> , document.getElementById('div'))
+
+</script>
+</html>

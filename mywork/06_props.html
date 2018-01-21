@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/react.development.js"></script>
+    <script src="js/react-dom.development.js"></script>
+    <script src="js/prop-types.js"></script>
+    <script src="js/babel.min.js"></script>
+</head>
+<body>
+    <div id="div"></div>
+</body>
+<script type="text/babel">
+
+    //1.定义组件
+
+    class MyComponent extends React.Component {
+        render(){
+            return (
+                <ul>
+                    <li>姓名：{this.props.name}</li>
+                    <li>年龄：{this.props.age}</li>
+                    <li>性别：{this.props.sex}</li>
+                </ul>
+            )
+        }
+    }
+
+    /*function MyComponent(props) {
+        return (
+            <ul>
+                <li>姓名：{props.name}</li>
+                <li>年龄：{props.age}</li>
+                <li>性别：{props.sex}</li>
+            </ul>
+        )
+    }*/
+
+    //设置默认属性
+    MyComponent.defaultProps = {
+        age:18,
+        sex:'女'
+    }
+
+    //设置属性类型
+    MyComponent.propTypes = {
+        age:PropTypes.number.isRequired,
+        sex:PropTypes.string.isRequired
+    }
+
+    const p = {
+        name:'jerry',
+        age:20,
+        sex:'男'
+    }
+
+    //2.渲染组件标签
+    ReactDOM.render(<MyComponent name={p.name} age={p.age}/> , document.getElementById('div'))
+    //ReactDOM.render(<MyComponent {...p}/> , document.getElementById('div'))
+
+</script>
+</html>

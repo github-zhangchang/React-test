@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/react.development.js"></script>
+    <script src="js/react-dom.development.js"></script>
+    <script src="js/babel.min.js"></script>
+</head>
+<body>
+    <div id="div"></div>
+</body>
+<script type="text/babel">
+
+    //1.定义组件
+    class MyComponent extends React.Component {
+
+        constructor(props){
+            super(props)
+            this.handleClick = this.handleClick.bind(this)
+            this.handleBlur = this.handleBlur.bind(this)
+        }
+
+        //处理点击事件
+        handleClick(){
+            //方式1：
+            //<input type="text" ref="input"/>
+            //const text = this.refs.input.value
+
+            //方式2：
+            //<input type="text" ref={input => this.input = input}/>
+            const text = this.input.value
+            alert(text)
+        }
+
+        //处理失去焦点事件
+        handleBlur(e){
+            const text = e.target.value
+            alert(text)
+        }
+
+        render(){
+            return (
+                <div>
+                    <input type="text" ref={input => this.input = input}/>
+                    <button onClick={this.handleClick}>提示输入数据</button>
+                    <input onBlur={this.handleBlur} type="text" placeholder="失去焦点提示数据"/>
+                </div>
+            )
+        }
+    }
+
+    //2.渲染组件标签
+    ReactDOM.render(<MyComponent/> , document.getElementById('div'))
+
+</script>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>02_JSX_DEMO</title>
+</head>
+<body>
+  <h2>前端JS框架列表</h2>
+  <div id="example1"></div>
+
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+
+  <script type="text/babel">
+    /*
+     功能: 动态展示列表数据
+     */
+
+    //准备数据
+    var names = ['jQuery','zepto','angular','react全家桶','vue全家桶']
+
+    //创建虚拟DOM
+    //TODO map ES6语法
+    var vDom = <ul>{names.map((name, index)=><li key={index}>{name}</li>)}</ul>
+
+
+    //TODO map ES语法 - 有返回值
+    /*var vDom = <ul>{names.map(function (name, index) {
+                  return <li key={index}>{name}</li>})}
+              </ul>
+    */
+
+
+    //TODO forEach - 没有返回值
+    /*var lis = []
+    names.forEach(function (name, index) {
+        lis.push(<li key={index}>{name}</li>)
+    })
+    var vDom = <ul>{lis}</ul>*/
+
+
+    //TODO filter
+    /*var lis = []
+    names.filter(function (name, index) {
+        lis.push(<li key={index}>{name}</li>)
+    })
+    var vDom = <ul>{lis}</ul>*/
+
+    //渲染虚拟DOM
+    ReactDOM.render(vDom, document.getElementById('example1'))
+
+  </script>
+</body>
+</html>

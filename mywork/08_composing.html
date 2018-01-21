@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/react.development.js"></script>
+    <script src="js/react-dom.development.js"></script>
+    <script src="js/prop-types.js"></script>
+    <script src="js/babel.min.js"></script>
+</head>
+<body>
+    <div id="div"></div>
+</body>
+<script type="text/babel">
+
+    //定义组件
+    class App extends React.Component {
+
+        constructor(props){
+            super(props)
+            //初始化状态
+            this.state = {
+                todos:['吃饭','睡觉','打豆豆']
+            }
+            this.add = this.add.bind(this)
+        }
+
+        add(todo){
+            const {todos} = this.state
+            //给数组添加数据
+            todos.unshift(todo)
+            //更新状态
+            this.setState({todos})
+        }
+
+        render(){
+            const {todos} = this.state
+            return (
+                <div>
+                    <ToAdd add={this.add} count={todos.length}/>
+                    <ToList todos={todos}/>
+                </div>
+            )
+        }
+    }
+    class ToAdd extends React.Component {
+
+        constructor(props){
+            super(props)
+            //指定自定义方法的 this 为组件对象
+            //给组件对象绑定自定义方法
+            this.handlerClick = this.handlerClick.bind(this)
+        }
+        //处理点击事件
+        handlerClick(){
+            //读取输入框数据
+            const text = this.input.value.trim()
+            //调用父级 add() 方法
+            this.props.add(text)
+            //清空输入框数据
+            this.input.value = ''
+        }
+
+        render(){
+            return (
+                <div>
+                    <h2>Simple TODO List</h2>
+                    <input type="text" ref={input => this.input = input}/>
+                    <button onClick={this.handlerClick}>Add #{this.props.count+1}</button>
+                </div>
+            )
+        }
+    }
+    //限定属性类型
+    ToAdd.propTypes = {
+        add:PropTypes.func.isRequired,
+        count:PropTypes.number.isRequired
+    }
+
+    class ToList extends React.Component {
+        render(){
+            const {todos} = this.props
+            return (
+                <ul>
+                    {todos.map((todo, key) => {return <li key={key}>{todo}</li>})}
+                </ul>
+            )
+        }
+    }
+    ToList.propTypes = {
+        todos:PropTypes.array.isRequired
+    }
+
+
+    //渲染组件标签
+    ReactDOM.render(<App/> , document.getElementById('div'))
+
+</script>
+</html>

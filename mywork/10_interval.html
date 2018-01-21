@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/react.development.js"></script>
+    <script src="js/react-dom.development.js"></script>
+    <script src="js/babel.min.js"></script>
+</head>
+<body>
+    <div id="div"></div>
+</body>
+<script type="text/babel">
+
+    //定义组件
+    class MyComponent extends React.Component {
+
+        constructor(props){
+            super(props)
+            this.state = {
+                opacity:1
+            }
+            this.handleClick = this.handleClick.bind(this)
+        }
+
+        //挂载完成执行定时器 - 注意：改变 this 为组件对象，而不是 window
+        componentDidMount(){
+            this.timer = setInterval(function () {
+                console.log('定时器执行了...');
+                let {opacity} = this.state
+                opacity -= 0.1
+                if(opacity <= 0){
+                    opacity = 1
+                }
+                this.setState({opacity})
+            }.bind(this), 200)
+        }
+
+        //移除当前组件对象
+        handleClick(){
+            ReactDOM.unmountComponentAtNode(document.getElementById('div'))
+        }
+
+        //清除定时器
+        componentWillUnmount(){
+            clearInterval(this.timer)
+        }
+
+        render(){
+            console.log('render...');
+            const {opacity} = this.state
+            return (
+                <div>
+                    <h2 style={{opacity:opacity}}>{this.props.content}</h2>
+                    <button onClick={this.handleClick}>凉拌</button>
+                </div>
+            )
+        }
+    }
+
+    //渲染组件标签
+    ReactDOM.render(<MyComponent content="React 学不会，咋办！"/> , document.getElementById('div'))
+
+</script>
+</html>
